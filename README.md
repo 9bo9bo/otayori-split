@@ -39,13 +39,16 @@
 
 詳細は [scriptable/SHORTCUTS.md](scriptable/SHORTCUTS.md) を参照。
 
-### 準備
+### 準備（iPhone・推奨）
 
-```bash
-npm run build:scriptable
-```
+1. [最新 Release](https://github.com/9bo9bo/otayori-split/releases/latest) から **otayori-split-scriptable.zip** をダウンロード
+2. 解凍して `お便り分割.js` と `otayori-split-engine.html` を Scriptable フォルダへ
 
-生成物 `scriptable/お便り分割.js` と `scriptable/otayori-split-engine.html` を iPhone の **Scriptable 書類フォルダ**へコピーします。
+直リンク（常に最新）:
+
+https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-scriptable.zip
+
+タグ `v*` を push すると GitHub Actions が成果物をビルドして Release に添付します。
 
 ### ショートカット（概要）
 

@@ -1,0 +1,89 @@
+name: Release Scriptable
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '作成するタグ（例: v1.0.1）。空ならタグは作らずビルドのみ'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test and build Scriptable artifacts
+        run: npm test
+
+      - name: Package zip for iPhone
+        run: |
+          mkdir -p dist-scriptable
+          cp "scriptable/お便り分割.js" dist-scriptable/お便り分割.js
+          cp scriptable/otayori-split-engine.html dist-scriptable/otayori-split-engine.html
+          cp scriptable/SHORTCUTS.md dist-scriptable/SHORTCUTS.md
+          # ASCII aliases (stable download URLs / easier on some clients)
+          cp "scriptable/お便り分割.js" dist-scriptable/OtayoriSplit.js
+          cd dist-scriptable
+          zip -r ../otayori-split-scriptable.zip \
+            お便り分割.js \
+            OtayoriSplit.js \
+            otayori-split-engine.html \
+            SHORTCUTS.md
+          ls -lh ../otayori-split-scriptable.zip
+          ls -lh .
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: otayori-split-scriptable
+          path: |
+            otayori-split-scriptable.zip
+            dist-scriptable/*
+
+      - name: Create or update GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || inputs.tag != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          name: ${{ inputs.tag || github.ref_name }}
+          generate_release_notes: true
+          body: |
+            ## Scriptable 用ファイル（iPhone向け）
+
+            いちばん簡単なのは zip です。
+
+            1. 下の **otayori-split-scriptable.zip** をタップしてダウンロード
+            2. Files で解凍
+            3. `お便り分割.js` と `otayori-split-engine.html` を **Scriptable** フォルダへ移動
+
+            手順の詳細: リポジトリの `scriptable/SHORTCUTS.md`
+
+            ### 直接リンク（最新リリース）
+            - zip: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-scriptable.zip
+            - エンジン: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-engine.html
+            - スクリプト: https://github.com/9bo9bo/otayori-split/releases/latest/download/OtayoriSplit.js
+          files: |
+            otayori-split-scriptable.zip
+            dist-scriptable/otayori-split-engine.html
+            dist-scriptable/OtayoriSplit.js
+            dist-scriptable/お便り分割.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
