@@ -4,3 +4,5 @@ tmp
 .DS_Store
 *.local
 dev-dist
+
+# scriptable/ は build:scriptable の成果物をコミットする（iPhoneへコピーしやすくするため）

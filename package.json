@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:scriptable": "node scripts/build-scriptable.mjs",
     "preview": "vite preview",
-    "test": "node src/paper.test.js && node scripts/split-smoke.mjs"
+    "test": "node src/paper.test.js && node scripts/split-smoke.mjs && npm run build:scriptable && node scripts/scriptable-engine-smoke.mjs"
   },
   "devDependencies": {
     "vite": "^8.2.0",

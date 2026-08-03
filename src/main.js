@@ -50,6 +50,9 @@ app.innerHTML = `
       <li>ショートカットアプリで新規作成し、「アプリを開く」で <strong>お便り分割</strong> を選ぶか、このページのURLを開くアクションを入れます。</li>
       <li>お便りPDFの共有メニューからそのショートカットを実行 → アプリが開いたら同じPDFを選択 →「分割する」→「共有・保存」から印刷やFilesへ保存します。</li>
     </ol>
+    <p class="result-meta" style="margin-top:0.9rem">
+      共有シートからPDFを直接渡して自動化したい場合は、Scriptable 連携版（リポジトリの <code>scriptable/SHORTCUTS.md</code>）を使えます。
+    </p>
   </section>
 `
 
