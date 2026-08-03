@@ -12,7 +12,7 @@ Safari版と違い、**共有シートからPDFを渡して分割まで自動化
 3. **otayori-split-scriptable.zip** をタップ → ダウンロード
 4. **Files** アプリで zip を解凍
 5. 次の2ファイルを **このiPhone内 → Scriptable** へ移動
-   - `お便り分割.js`（または `OtayoriSplit.js` を `お便り分割.js` にリネーム）
+   - `お便り分割.js`（zip内。個別DLした `OtayoriSplit.js` はリネーム）
    - `otayori-split-engine.html`（必須・分割エンジン）
 6. Scriptable を開き、「お便り分割」が出ることを確認
 

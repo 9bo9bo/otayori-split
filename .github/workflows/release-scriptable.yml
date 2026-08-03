@@ -80,10 +80,12 @@ jobs:
             - zip: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-scriptable.zip
             - エンジン: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-engine.html
             - スクリプト: https://github.com/9bo9bo/otayori-split/releases/latest/download/OtayoriSplit.js
+
+            > 個別ダウンロードした `OtayoriSplit.js` は Scriptable フォルダで `お便り分割.js` にリネームしてください（zip 内は最初から日本語名です）。
+          # GitHub Release のアセット名は ASCII のみにする（日本語名は default.js になるため）
           files: |
             otayori-split-scriptable.zip
             dist-scriptable/otayori-split-engine.html
             dist-scriptable/OtayoriSplit.js
-            dist-scriptable/お便り分割.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
