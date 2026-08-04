@@ -5,7 +5,7 @@
 //
 // お便り分割 — A3/B4 PDF を A4×2 / B5×2 に中央分割
 // 必要ファイル: Scriptable 書類フォルダ内の otayori-split-engine.html
-// （リポジトリの npm run build:scriptable で生成）
+// （リポジトリの npm run build で生成）
 
 const BOOKMARK_INPUT = 'OtayoriSplitInput'
 const ENGINE_NAME = 'otayori-split-engine.html'

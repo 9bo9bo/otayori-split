@@ -74,7 +74,7 @@ jobs:
             2. Files で解凍
             3. `お便り分割.js` と `otayori-split-engine.html` を **Scriptable** フォルダへ移動
 
-            手順の詳細: リポジトリの `scriptable/SHORTCUTS.md`
+            手順の詳細: リポジトリの README / `scriptable/SHORTCUTS.md`
 
             ### 直接リンク（最新リリース）
             - zip: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-scriptable.zip

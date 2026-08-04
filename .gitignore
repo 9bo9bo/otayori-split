@@ -1,8 +1,8 @@
 node_modules
-dist
 tmp
+dist-scriptable
+otayori-split-scriptable.zip
 .DS_Store
 *.local
-dev-dist
 
-# scriptable/ は build:scriptable の成果物をコミットする（iPhoneへコピーしやすくするため）
+# scriptable/ は npm run build の成果物をコミットする（参照・コピー用）
