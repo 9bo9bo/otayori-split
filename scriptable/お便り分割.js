@@ -90,7 +90,7 @@ async function ensureEngine(fm) {
 
   throw new Error(
     'otayori-split-engine.html が Scriptable の書類フォルダにありません。\n' +
-      'Mac/PC で npm run build:scriptable を実行し、scriptable/ 内の HTML を Scriptable フォルダへコピーしてください。',
+      'Mac/PC で npm run build を実行し、scriptable/ 内の HTML を Scriptable フォルダへコピーしてください。',
   )
 }
 
@@ -135,8 +135,10 @@ async function resolveInput(preferredFm) {
   }
 
   throw new Error(
-    '入力PDFがありません。ショートカットで「ファイルブックマークを作成」' +
-      `（名前: ${BOOKMARK_INPUT}）を入れてから「スクリプトを実行」してください。`,
+    '入力PDFがありません。\n' +
+      'おすすめ: PDFの共有シート → Scriptable → お便り分割\n' +
+      'ショートカット利用時: 入力にPDFを渡すか、' +
+      `「ファイルブックマークを作成」（名前: ${BOOKMARK_INPUT}）を挟んでください。`,
   )
 }
 

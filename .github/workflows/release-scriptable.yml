@@ -68,13 +68,12 @@ jobs:
           body: |
             ## Scriptable 用ファイル（iPhone向け）
 
-            いちばん簡単なのは zip です。
+            1. **otayori-split-scriptable.zip** をダウンロード → Files で解凍
+            2. `お便り分割.js` と `otayori-split-engine.html` を **Scriptable** フォルダへ移動
+            3. お便りPDFを開く → **共有 → Scriptable → お便り分割**
+               （ショートカットの自作は不要です）
 
-            1. 下の **otayori-split-scriptable.zip** をタップしてダウンロード
-            2. Files で解凍
-            3. `お便り分割.js` と `otayori-split-engine.html` を **Scriptable** フォルダへ移動
-
-            手順の詳細: リポジトリの README / `scriptable/SHORTCUTS.md`
+            手順の詳細: リポジトリの README
 
             ### 直接リンク（最新リリース）
             - zip: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-scriptable.zip
