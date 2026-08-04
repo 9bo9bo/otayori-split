@@ -144,23 +144,37 @@ async function runSplitInWebView(enginePath, inputBase64) {
   const wv = new WebView()
   await wv.loadFile(enginePath)
 
+  // Scriptable は completion / 戻り値にオブジェクトや Promise を渡せない。
+  // 必ず JSON 文字列で返し、同期側の最終式も "" にする。
   const js = `
     (async function() {
       try {
         if (!window.__otayoriEngineReady) {
-          completion({ error: 'エンジンの読み込みに失敗しました' });
+          completion(JSON.stringify({ error: 'エンジンの読み込みに失敗しました' }));
           return;
         }
         const result = await splitPdfBase64(${JSON.stringify(inputBase64)});
-        completion(result);
+        completion(JSON.stringify(result));
       } catch (e) {
-        completion({ error: String(e && e.message ? e.message : e) });
+        completion(JSON.stringify({
+          error: String(e && e.message ? e.message : e)
+        }));
       }
     })();
+    ""
   `
-  const result = await wv.evaluateJavaScript(js, true)
+  const raw = await wv.evaluateJavaScript(js, true)
+  let result
+  try {
+    result = typeof raw === 'string' ? JSON.parse(raw) : raw
+  } catch (e) {
+    throw new Error('エンジンからの応答を解析できませんでした: ' + String(raw).slice(0, 120))
+  }
   if (!result || result.error) {
     throw new Error((result && result.error) || '分割に失敗しました')
+  }
+  if (!result.base64) {
+    throw new Error('分割結果のPDFデータが空です')
   }
   return result
 }

@@ -48,7 +48,8 @@ ${splitSrc}
 
   /**
    * Called from Scriptable via WebView.evaluateJavaScript.
-   * Input/output are base64 strings (no data: prefix).
+   * Returns a plain JSON-serializable object (base64 string + summary).
+   * Scriptable completion() only accepts simple types — stringify on the caller side.
    */
   async function splitPdfBase64(inputBase64) {
     var binary = atob(inputBase64);
@@ -60,12 +61,16 @@ ${splitSrc}
     for (var j = 0; j < result.bytes.length; j += chunk) {
       out += String.fromCharCode.apply(null, result.bytes.subarray(j, j + chunk));
     }
+    // Avoid non-JSON values (undefined) that break Scriptable bridges
     return {
       base64: btoa(out),
       pageCount: result.pageCount,
       outputPages: result.outputPages,
-      summary: result.summary,
-      pageReports: result.pageReports,
+      summary: {
+        sourceLabel: String(result.summary.sourceLabel || ''),
+        targetLabel: String(result.summary.targetLabel || ''),
+        allMatched: !!result.summary.allMatched,
+      },
     };
   }
 

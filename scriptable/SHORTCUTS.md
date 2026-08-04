@@ -67,6 +67,7 @@ Scriptable で「お便り分割」を実行 → ファイル選択 → 分割 �
 | メモリ不足で落ちる | 「スクリプトを実行」の **Appで実行** をオン |
 | ブックマークが効かない | Scriptable設定内のブックマークではなく、**Shortcutsの Scriptable アクション**で作成する |
 | スクリプト名が英語 | Release の `OtayoriSplit.js` を `お便り分割.js` にリネームして Scriptable フォルダへ |
+| 対応していないタイプの結果 | 古い版の可能性。最新 Release の `お便り分割.js` と `otayori-split-engine.html` を両方入れ直す |
 
 ## Safari版との違い
 
