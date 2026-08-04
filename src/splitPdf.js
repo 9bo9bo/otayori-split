@@ -8,6 +8,8 @@ import { detectPaper, formatSizeMm } from './paper.js'
  */
 export async function splitLargePdf(inputBytes, options = {}) {
   const { onProgress } = options
+  // ignoreEncryption: 閲覧用パスワードなし／所有者パスワードのみの
+  // お便りPDFを開けるようにする（端末内のユーザー自身のファイル向け）。
   const src = await PDFDocument.load(inputBytes, { ignoreEncryption: true })
   const out = await PDFDocument.create()
   const pageCount = src.getPageCount()
