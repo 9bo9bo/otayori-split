@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import vm from 'vm'
-import { PDFDocument, StandardFonts } from 'pdf-lib'
+import { PDFDocument, StandardFonts } from '@cantoo/pdf-lib'
 import { mmToPt } from '../src/paper.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -28,7 +28,7 @@ sandbox.self = sandbox
 sandbox.globalThis = sandbox
 vm.createContext(sandbox)
 
-// First script is pdf-lib UMD — avoid CommonJS branch
+// First script is @cantoo/pdf-lib UMD — avoid CommonJS branch
 sandbox.module = undefined
 sandbox.exports = undefined
 vm.runInContext(scripts[0], sandbox)

@@ -90,6 +90,6 @@ npm run build
 
 ## 技術
 
-- [pdf-lib](https://pdf-lib.js.org/)（ベクトルのままページ分割）
+- [@cantoo/pdf-lib](https://www.npmjs.com/package/@cantoo/pdf-lib)（pdf-lib 継続フォーク。ベクトルのままページ分割）
 - Scriptable WebView（端末内で完結）
 - GitHub Actions → Releases（iPhone向け配布）

@@ -1,10 +1,10 @@
-import { PDFDocument } from 'pdf-lib'
+import { PDFDocument } from '@cantoo/pdf-lib'
 import { detectPaper, formatSizeMm } from './paper.js'
 
 /**
  * Split each page of a large PDF into two halves (A3→A4×2, B4→B5×2).
  * Landscape pages: left then right. Portrait pages: top then bottom.
- * Vector content is preserved via pdf-lib page embedding.
+ * Vector content is preserved via @cantoo/pdf-lib page embedding.
  */
 export async function splitLargePdf(inputBytes, options = {}) {
   const { onProgress } = options

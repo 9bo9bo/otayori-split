@@ -1,17 +1,16 @@
 /**
  * Builds a self-contained HTML engine for Scriptable WebView,
- * inlining pdf-lib + the shared split logic, and copies the Scriptable script.
+ * inlining @cantoo/pdf-lib + the shared split logic, and copies the Scriptable script.
  */
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'fs'
-import { createRequire } from 'module'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
 const outDir = join(root, 'scriptable')
-const require = createRequire(import.meta.url)
-const pdfLibPath = require.resolve('pdf-lib/dist/pdf-lib.min.js')
+// package exports omit dist/; unpkg points here and UMD still exposes window.PDFLib
+const pdfLibPath = join(root, 'node_modules/@cantoo/pdf-lib/dist/pdf-lib.min.js')
 
 const paperSrc = readFileSync(join(root, 'src/paper.js'), 'utf8')
   .replace(/^import .*$/gm, '')
