@@ -1,6 +1,6 @@
 {
   "name": "otayori-split",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "type": "module",
   "description": "A3/B4のお便りPDFをA4×2・B5×2に分割する Scriptable × ショートカット用ツール",

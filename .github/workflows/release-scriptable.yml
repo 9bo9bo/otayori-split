@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -58,29 +60,61 @@ jobs:
             otayori-split-scriptable.zip
             dist-scriptable/*
 
+      - name: Build release notes
+        if: startsWith(github.ref, 'refs/tags/v') || inputs.tag != ''
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Normalize refs/tags/v1.2.0 -> v1.2.0
+          TAG="${TAG#refs/tags/}"
+
+          PREV="$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)"
+
+          {
+            echo "## 変更内容"
+            echo
+            if [ -n "${PREV}" ]; then
+              echo "前バージョン: \`${PREV}\` → \`${TAG}\`"
+              echo
+              git log --pretty=format:'- %s' "${PREV}..${TAG}"
+              echo
+              echo
+              echo "差分: https://github.com/${REPO}/compare/${PREV}...${TAG}"
+            else
+              echo "初回リリース"
+              echo
+              git log --pretty=format:'- %s' "${TAG}"
+              echo
+            fi
+            echo
+            echo "## インストール（iPhone）"
+            echo
+            echo "1. **otayori-split-scriptable.zip** をダウンロード → Files で解凍"
+            echo "2. \`お便り分割.js\` と \`otayori-split-engine.html\` を **Scriptable** フォルダへ移動"
+            echo "3. お便りPDFを開く → **共有 → Scriptable → お便り分割**"
+            echo
+            echo "手順の詳細: リポジトリの README"
+            echo
+            echo "### 直接リンク（最新リリース）"
+            echo "- zip: https://github.com/${REPO}/releases/latest/download/otayori-split-scriptable.zip"
+            echo "- エンジン: https://github.com/${REPO}/releases/latest/download/otayori-split-engine.html"
+            echo "- スクリプト: https://github.com/${REPO}/releases/latest/download/OtayoriSplit.js"
+            echo
+            echo "> 個別ダウンロードした \`OtayoriSplit.js\` は Scriptable フォルダで \`お便り分割.js\` にリネームしてください（zip 内は最初から日本語名です）。"
+          } > release-notes.md
+
+          echo "----- release-notes.md -----"
+          cat release-notes.md
+
       - name: Create or update GitHub Release
         if: startsWith(github.ref, 'refs/tags/v') || inputs.tag != ''
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ inputs.tag || github.ref_name }}
           name: ${{ inputs.tag || github.ref_name }}
-          generate_release_notes: true
-          body: |
-            ## Scriptable 用ファイル（iPhone向け）
-
-            1. **otayori-split-scriptable.zip** をダウンロード → Files で解凍
-            2. `お便り分割.js` と `otayori-split-engine.html` を **Scriptable** フォルダへ移動
-            3. お便りPDFを開く → **共有 → Scriptable → お便り分割**
-               （ショートカットの自作は不要です）
-
-            手順の詳細: リポジトリの README
-
-            ### 直接リンク（最新リリース）
-            - zip: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-scriptable.zip
-            - エンジン: https://github.com/9bo9bo/otayori-split/releases/latest/download/otayori-split-engine.html
-            - スクリプト: https://github.com/9bo9bo/otayori-split/releases/latest/download/OtayoriSplit.js
-
-            > 個別ダウンロードした `OtayoriSplit.js` は Scriptable フォルダで `お便り分割.js` にリネームしてください（zip 内は最初から日本語名です）。
+          body_path: release-notes.md
           # GitHub Release のアセット名は ASCII のみにする（日本語名は default.js になるため）
           files: |
             otayori-split-scriptable.zip
